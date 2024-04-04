@@ -30,7 +30,7 @@ public class Init {
         roleService.addRole(adminRole);
         roleService.addRole(userRole);
 
-        userService.addUser(new User("Ivan", "Ivanov", "1", "111", Set.of(adminRole)));
-        userService.addUser(new User("Serge", "Tsym", "2", "222", Set.of(userRole)));
+        userService.addUser(new User("Ivan", "Ivanov", "1", "1@mail.ru", "111", Set.of(adminRole)));
+        userService.addUser(new User("Serge", "Tsym", "2", "2@mail.ru", "222", Set.of(userRole)));
     }
 }

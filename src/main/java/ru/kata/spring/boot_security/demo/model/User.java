@@ -20,6 +20,9 @@ public class User {
     @Column(name = "login", unique = true)
     private String login;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -34,10 +37,11 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastName, String login, String password, Set<Role> roles) {
+    public User(String name, String lastName, String login, String email, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.login = login;
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }
@@ -66,6 +70,13 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -98,7 +109,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", login='" + login + '\'' +
-                ", roles=" + roles +
+                ", email='" + email + '\'' +
+                ", roles= " + roles +
                 '}';
     }
 
@@ -107,13 +119,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(login, user.login) && Objects.equals(roles, user.roles);
+        return id == user.id && Objects.equals(name, user.name) && Objects.equals(lastName, user.lastName) && Objects.equals(login, user.login) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastName, login, roles);
+        return Objects.hash(id, name, lastName, login, email, roles);
     }
-
-
 }
