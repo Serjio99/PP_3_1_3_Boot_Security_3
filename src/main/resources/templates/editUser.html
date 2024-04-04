@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit the user</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/admin/save}" th:object="${user}">
+    <input type="hidden" th:field="*{id}" th:value="${user.getId()}">
+    <label for="name">Имя</label>
+    <input id="name" th:field="*{name}" type="text"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
+    <br>
+    <label for="lastname">Фамилия</label>
+    <input type="text" th:field="*{lastName}" id="lastname"/>
+    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</div>
+    <br>
+    <label for="login">Login</label>
+    <input type="text" th:field="*{login}" id="login"/>
+    <div style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Error</div>
+    <br>
+    <label for="password">Password</label>
+    <input type="password" th:field="*{password}" id="password"/>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+    <br>
+    <label>
+        <select th:name="roles" th:value="*{roles}">
+            <option th:each="role:${roles}" th:value="${role.id}" th:text="${role.role}" selected/>
+        </select>
+    </label>
+    <input type="submit" value="Save user">
+</form>
+<br>
+<br>
+<a href="/admin">
+    <input type="submit" value="На страницу администратора">
+</a>
+<br>
+<br>
+<a href="/logout">
+    <input type="submit" value="Logout">
+</a>
+</body>
+</html>

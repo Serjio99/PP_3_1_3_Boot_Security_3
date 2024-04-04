@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница администратора</title>
+    <style>
+        body {font-size: large;}
+        table {border-collapse: collapse;}
+        th, td {border: 1px solid; align-content: center;}
+        tr:hover td {background-color: lightblue;}
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилиф</th>
+        <th>Roles</th>
+        <th>Действия</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getId()}"/>
+        <td th:text="${user.getName()}"/>
+        <td th:text="${user.getLastName()}"/>
+        <td th:each="role:${user.roles}" th:text="${role.role}"/>
+        <td>
+            <a th:href="@{/admin/edit(id=${user.id})}">Редактировать</a>
+            <br>
+            <a th:href="@{/admin/delete(id=${user.id})}">Удалить</a>
+        </td>
+    </tr>
+</table>
+<br>
+<br>
+<a href="/admin/new">
+    <input type="submit" value="Добавить нового пользователя">
+</a>
+<br>
+<br>
+<a href="/logout">
+    <input type="submit" value="Logout">
+</a>
+</body>
+</html>
