@@ -46,19 +46,6 @@ public class AdminController {
         return "newUserCreate";
     }
 
-    @PostMapping("/admin/addUser")  //  добавляем нового пользователя.
-    public String addNewUser(@ModelAttribute("user") @Valid User user,
-                             BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("roles", roleService.getListOfRoles());
-            return "newUserCreate";
-        }
-        user.setPassword(user.getPassword());
-        userService.addUser(user);
-        return "redirect:/admin";
-    }
-
     @GetMapping("/admin/edit")  // форма для редактирования пользователя
     public String editUserById(@RequestParam(value = "id") Long id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
@@ -66,17 +53,44 @@ public class AdminController {
         return "editUser";
     }
 
-    @PostMapping("/admin/save")     // сохраняем данные пользователя
-    public String saveUser(@ModelAttribute("user") @Valid User user,
-                           BindingResult bindingResult, Model model) {
+    @PostMapping("/admin/addUser")
+    public String processAddUserForm(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
-            model.addAttribute("roles", roleService.getListOfRoles());
-            return "editUser";
+            return showNewUserForm(user, model);
         }
+        saveUserAndRedirect(user);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/save")
+    public String processEditUserForm(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return showEditUserForm(user, model);
+        }
+        updateUserAndRedirect(user);
+        return "redirect:/admin";
+    }
+
+    private String showNewUserForm(User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.getListOfRoles());
+        return "newUserCreate";
+    }
+
+    private void saveUserAndRedirect(User user) {
+        user.setPassword(user.getPassword());
+        userService.addUser(user);
+    }
+
+    private String showEditUserForm(User user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.getListOfRoles());
+        return "editUser";
+    }
+
+    private void updateUserAndRedirect(User user) {
         user.setPassword(user.getPassword());
         userService.editUserById(user);
-        return "redirect:/admin";
     }
 
     @GetMapping(value = "/admin/delete")
